@@ -19,4 +19,4 @@ async def get_gold_price():
     async with httpx.AsyncClient() as client:
         response = await client.get(API_URL, headers=headers)
         data = response.json()
-        return data[2500]
+        return 2500
