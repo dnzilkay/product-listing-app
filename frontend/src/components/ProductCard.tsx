@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ColorPicker from './ColorPicker';
-import Carousel from './Carousel';
+//import Carousel from './Carousel';
 
 type Product = {
     name: string;
