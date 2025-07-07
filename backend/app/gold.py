@@ -21,8 +21,12 @@ def load_saved_gold_price():
     if not os.path.exists(GOLD_PRICE_FILE):
         return None
     with open(GOLD_PRICE_FILE, "r") as f:
-        data = json.load(f)
-    return data
+        try:
+            data = json.load(f)
+            return data
+        except Exception as e:
+            print("gold_price.json dosyası okunurken hata oluştu:", e)
+            return None
 
 async def fetch_gold_price_from_api():
     if not API_URL:
@@ -40,7 +44,16 @@ async def get_gold_price():
     now = datetime.now()
     saved = load_saved_gold_price()
     if saved:
-        last_time = datetime.fromisoformat(saved.get("datetime"))
+        raw_datetime = saved.get("datetime")
+        if isinstance(raw_datetime, str):
+            try:
+                last_time = datetime.fromisoformat(raw_datetime)
+            except Exception as e:
+                print("Datetime string hatalı, yeni veri alınacak:", e)
+                last_time = now - timedelta(hours=24)
+        else:
+            print("Datetime alanı string değil veya mevcut değil, yeni veri alınacak.")
+            last_time = now - timedelta(hours=24)
         if now - last_time < timedelta(hours=8):
             return saved["price"]
     price = await fetch_gold_price_from_api()
