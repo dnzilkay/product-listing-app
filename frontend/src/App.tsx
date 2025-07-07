@@ -202,6 +202,7 @@ const App: React.FC = () => {
                     </div>
                 ) : (
                     <Swiper
+                        key={JSON.stringify(sortedProducts)}
                         modules={[Navigation]}
                         navigation
                         spaceBetween={32}
