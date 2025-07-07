@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:8000/products';
+const API_URL = `${import.meta.env.VITE_API_URL}/products`;
 
 export async function fetchProducts(filters: Record<string, any> = {}) {
     const params = new URLSearchParams(filters).toString();
